@@ -1,0 +1,55 @@
+
+plugins {
+    id 'java'
+    id 'application'
+    id 'edu.sc.seis.launch4j' version '2.4.6'
+
+}
+launch4j {
+    mainClassName = 'ru.bkmz.drizzle.Application'
+    outfile =  " v"+version+".exe"
+    version = version
+    textVersion = version
+    icon = "B:\\icon.ico"
+    companyName = "BkzmLitel"
+    copyright = "BkzmLitel"
+    launch4j.language = 'RUSSIAN'
+    launch4j.jreMinVersion = "1.8.0_211"
+
+    internalName = "drizzle"
+}
+
+compileJava.options.encoding = "UTF-8"
+//compileJava.options.encoding = "Windows-1251"
+group 'drizzle'
+version 'v0.10.4'
+
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+sourceCompatibility = 1.8
+mainClassName = 'ru.bkmz.Main'
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+
+}
+
+repositories {
+    mavenCentral()
+}
+
+jar {
+    exclude 'META-INF/*.DSA', 'META-INF/*.RSA', 'META-INF/*.SF'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    manifest {
+        attributes(
+                'Class-Path': configurations.runtime.files.collect { "lib/$it.name" }.join(' '),
+                'Main-Class': mainClassName
+        )
+
+    }
+}
